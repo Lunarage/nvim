@@ -16,17 +16,21 @@ local on_attach = function(client, bufnr)
 	nvim_command("autocmd CursorHold <buffer> lua vim.diagnostic.open_float()")
 end
 
-lspconfig.lua_ls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	},
-})
+local lsp_list = { 'lua_ls' }
+
+for _, lsp in lsp_list do
+  lspconfig[lsp].setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
+        },
+      },
+    },
+  })
+end
 
 lspconfig.eslint.setup({})
 
