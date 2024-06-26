@@ -1,5 +1,5 @@
 if IS_WINDOWS then
-	vim.cmd("language en_US")
+    vim.cmd("language en_US")
 end
 local tab_width = 2
 
@@ -19,6 +19,7 @@ vim.opt.relativenumber = true
 vim.opt.wildmode = "longest,list"
 vim.opt.cc = "120"
 vim.opt.foldlevel = 99
+vim.opt.wrap = false
 
 vim.opt.clipboard = "unnamedplus"
 
@@ -28,26 +29,28 @@ vim.opt.updatetime = 500
 
 local space = "·"
 vim.opt.listchars:append({
-	space = space,
-	multispace = space,
-	lead = space,
-	trail = space,
-	nbsp = space,
-	tab = "|-",
-	extends = "›",
-	precedes = "‹",
+    space = space,
+    multispace = space,
+    lead = space,
+    trail = space,
+    nbsp = space,
+    tab = "󰄾_",
+    extends = "›",
+    precedes = "‹",
 })
 
 local _border = "single"
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = _border,
+    border = _border,
 })
 
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = _border,
+    border = _border,
 })
 
 vim.diagnostic.config({
-	float = { border = _border },
+    float = { border = _border },
 })
+
+vim.diagnostic.config({ virtual_text = false })

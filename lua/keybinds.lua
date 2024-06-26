@@ -18,13 +18,10 @@ nnoremap("<C-l>", "<C-W>l")
 nnoremap("j", "gj")
 nnoremap("k", "gk")
 
-nnoremap("<Left>", ":tabp<CR>")
-nnoremap("<Right>", ":tabn<CR>")
+nnoremap("<Left>", ":bnext<CR>")
+nnoremap("<Right>", ":bprev<CR>")
 
--- Remove highlight with enter
-nnoremap("<CR>", ":noh<CR><CR>")
-
-nnoremap("<Space>", "za")
+nnoremap("<C-Space>", "za")
 
 nnoremap("<c-h>", "<cmd>TmuxNavigateLeft<cr>")
 nnoremap("<c-j>", "<cmd>TmuxNavigateDown<cr>")
@@ -33,3 +30,19 @@ nnoremap("<c-l>", "<cmd>TmuxNavigateRight<cr>")
 nnoremap("<c-\\>", "<cmd>TmuxNavigatePrevious<cr>")
 
 nnoremap("<leader>f", ":Format<CR>")
+
+nnoremap("<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>")
+nnoremap("L", "<cmd>lua vim.lsp.buf.code_action()<cr>")
+
+vim.api.nvim_set_keymap(
+    "n",
+    "gD",
+    "<cmd>lua vim.lsp.buf.declaration()<CR>",
+    { noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+    "n",
+    "gd",
+    "<cmd>lua vim.lsp.buf.definition()<CR>",
+    { noremap = true, silent = true }
+)
