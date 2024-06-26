@@ -5,6 +5,6 @@ _G.IS_LINUX = OS == "Linux"
 _G.IS_WINDOWS = OS:find("Windows") and true or false
 _G.IS_WSL = IS_LINUX and uname.release:find("Microsoft") and true or false
 
-require("options")
 require("_lazy")
+require("options")
 require("keybinds")
