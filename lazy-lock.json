@@ -22,6 +22,7 @@
   "nvim-treesitter": { "branch": "master", "commit": "53b32a6aa3e1de224e82f88cbdc08584c753adb7" },
   "nvim-web-devicons": { "branch": "master", "commit": "c0cfc1738361b5da1cd0a962dd6f774cc444f856" },
   "plenary.nvim": { "branch": "master", "commit": "a3e3bc82a3f95c5ed0d7201546d5d2c19b20d683" },
+  "pretty-fold.nvim": { "branch": "master", "commit": "a7d8b424abe0eedf50116c460fbe6dfd5783b1d5" },
   "rainbow-delimiters.nvim": { "branch": "master", "commit": "5c9660801ce345cd3835e1947c12b54290ab7e71" },
   "tailwind-tools.nvim": { "branch": "master", "commit": "a95aaf11d9deca884743c9017323c0ffea0015f2" },
   "telescope.nvim": { "branch": "master", "commit": "61a4a615366c470a4e9ca8f8b45718b6b92af73f" },
