@@ -4,5 +4,10 @@ return {
     init = function()
       vim.cmd.normal("TSUpdate")
     end,
+    config = function ()
+      require('nvim-treesitter.configs').setup({
+        highlight = { enable = true }
+      })
+    end
   },
 }

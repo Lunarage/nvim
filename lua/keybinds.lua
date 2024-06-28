@@ -1,6 +1,6 @@
-local Utils = require("utils")
+local utils = require("utils")
 
-local nnoremap = Utils.nnoremap
+local nnoremap = utils.nnoremap
 -- local vnoremap = Utils.vnoremap
 -- local xnoremap = Utils.xnoremap
 -- local inoremap = Utils.inoremap

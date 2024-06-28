@@ -9,7 +9,7 @@ return {
         },
       })
 
-      local ignore_filetypes = { "NvimTree", "neotest-summary" }
+      local ignore_filetypes = { "NvimTree", "neotest-summary", "trouble", "fugitiveblame" }
       local ignore_buftypes = { "nofile", "prompt", "popup" }
 
       local augroup = vim.api.nvim_create_augroup("FocusDisable", { clear = true })
