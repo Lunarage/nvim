@@ -42,19 +42,20 @@ return {
           lua = rainbow_delimiters.strategy["local"],
         },
         query = {
-          [''] = 'rainbow-delimiters',
-          lua = 'rainbow-blocks',
-          tsx = 'rainbow-parens',
-          typescript = 'rainbow-parens',
-          javascript = 'rainbow-parens',
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+          tsx = "rainbow-parens",
+          typescript = "rainbow-parens",
+          javascript = "rainbow-parens",
         },
       })
     end,
   },
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim", "SmiteshP/nvim-navic" },
     config = function()
+      local navic = require('nvim-navic')
       require("lualine").setup({
         options = {
           theme = "catppuccin",
@@ -71,6 +72,18 @@ return {
           lualine_x = { "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" },
+        },
+        winbar = {
+          lualine_c = {
+            {
+              function()
+                return navic.get_location()
+              end,
+              cond = function()
+                return navic.is_available()
+              end
+            },
+          },
         },
       })
     end,

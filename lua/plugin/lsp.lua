@@ -1,16 +1,70 @@
 return {
   {
-    "neovim/nvim-lspconfig",
-    dependencies = { "hrsh7th/cmp-nvim-lsp" },
+    "SmiteshP/nvim-navic",
     config = function()
+      local navic = require("nvim-navic")
+      navic.setup({
+        icons = {
+          File = " ",
+          Module = " ",
+          Namespace = " ",
+          Package = " ",
+          Class = " ",
+          Method = " ",
+          Property = " ",
+          Field = " ",
+          Constructor = " ",
+          Enum = " ",
+          Interface = " ",
+          Function = " ",
+          Variable = " ",
+          Constant = " ",
+          String = " ",
+          Number = " ",
+          Boolean = " ",
+          Array = " ",
+          Object = " ",
+          Key = " ",
+          Null = " ",
+          EnumMember = " ",
+          Struct = " ",
+          Event = " ",
+          Operator = " ",
+          TypeParameter = " ",
+        },
+        lsp = {
+          auto_attach = true,
+          preference = nil,
+        },
+        highlight = true,
+        separator = " > ",
+        depth_limit = 6,
+        depth_limit_indicator = "…",
+        safe_output = true,
+        lazy_update_context = false,
+        click = false,
+        format_text = function(text)
+          return text
+        end,
+      })
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = { "hrsh7th/cmp-nvim-lsp", "SmiteshP/nvim-navic" },
+    config = function()
+      local navic = require("nvim-navic")
+      local on_attach = function(client, bufnr)
+        navic.attach(client, bufnr)
+      end
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lsp_list = { "lua_ls", "eslint", "tailwindcss" }
 
+      local lsp_list = { "lua_ls", "eslint", "tailwindcss" }
       for _, lsp in pairs(lsp_list) do
         lspconfig[lsp].setup({
           capabilities = capabilities,
-          -- on_attach = on_attach,
+          on_attach = on_attach,
           settings = {
             Lua = {
               diagnostics = {
@@ -24,12 +78,21 @@ return {
   },
   {
     "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig", "hrsh7th/cmp-nvim-lsp" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
+      "hrsh7th/cmp-nvim-lsp",
+      "SmiteshP/nvim-navic",
+    },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local navic = require("nvim-navic")
+      local on_attach = function(client, bufnr)
+        navic.attach(client, bufnr)
+      end
       require("typescript-tools").setup({
         capabilities = capabilities,
-        -- on_attach = on_attach,
+        on_attach = on_attach,
         settings = {
           -- spawn additional tsserver instance to calculate diagnostics on it
           separate_diagnostic_server = true,

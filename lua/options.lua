@@ -34,6 +34,8 @@ vim.opt.autoread = true
 
 vim.opt.updatetime = 500
 
+vim.opt.scrolloff=20
+
 local space = "·"
 vim.opt.listchars:append({
     space = space,
