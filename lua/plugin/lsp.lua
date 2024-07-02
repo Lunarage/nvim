@@ -61,10 +61,18 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local lsp_list = { "lua_ls", "eslint", "tailwindcss" }
+      local navic_list = { "lua_ls" }
       for _, lsp in pairs(lsp_list) do
         lspconfig[lsp].setup({
           capabilities = capabilities,
-          on_attach = on_attach,
+          on_attach = function()
+            for _, navic_support in pairs(navic_list) do
+              if navic_support == lsp then
+                return on_attach
+              end
+            end
+            return nil
+          end,
           settings = {
             Lua = {
               diagnostics = {

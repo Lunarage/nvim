@@ -21,6 +21,7 @@ return {
           "prisma",
           "python",
           "query",
+          "html",
         },
         highlight = { enable = true },
       })

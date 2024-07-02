@@ -4,6 +4,8 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<cr>" },
+      { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
+      { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
     },
   },
   {
@@ -55,7 +57,7 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim", "SmiteshP/nvim-navic" },
     config = function()
-      local navic = require('nvim-navic')
+      local navic = require("nvim-navic")
       require("lualine").setup({
         options = {
           theme = "catppuccin",
@@ -81,9 +83,30 @@ return {
               end,
               cond = function()
                 return navic.is_available()
-              end
+              end,
             },
           },
+        },
+      })
+    end,
+  },
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("bufferline").setup({
+        options = {
+          mode = "buffers", -- set to "tabs" to only show tabpages instead
+          diagnostics = "nvim_lsp",
+          offsets = {
+            {
+              filetype = "NvimTree",
+              text = "NvimTree",
+              text_align = "left",
+              separator = true,
+            },
+          },
+          color_icons = true,
         },
       })
     end,
