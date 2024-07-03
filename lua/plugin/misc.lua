@@ -65,6 +65,7 @@ return {
           disabled_filetypes = {
             "NvimTree",
             "trouble",
+            "neotest-summary",
           },
         },
         sections = {
@@ -77,6 +78,7 @@ return {
         },
         winbar = {
           lualine_c = {
+            "filename",
             {
               function()
                 return navic.get_location()
@@ -94,9 +96,16 @@ return {
     "akinsho/bufferline.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("bufferline").setup({
+      local bufferline = require("bufferline")
+      bufferline.setup({
         options = {
           mode = "buffers", -- set to "tabs" to only show tabpages instead
+          style_preset = bufferline.style_preset.no_italic,
+          themable = true,
+          numbers = "none",
+          indicator = {
+            style = "underline",
+          },
           diagnostics = "nvim_lsp",
           offsets = {
             {
@@ -107,6 +116,13 @@ return {
             },
           },
           color_icons = true,
+          separator_style = "slant",
+          diagnostics_indicator = function(count, level)
+            local icon = level:match("error") and " "
+              or level:match("warning") and " "
+              or " "
+            return " " .. icon
+          end,
         },
       })
     end,

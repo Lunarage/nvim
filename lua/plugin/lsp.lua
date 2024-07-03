@@ -37,7 +37,7 @@ return {
           preference = nil,
         },
         highlight = true,
-        separator = " > ",
+        separator = "  ",
         depth_limit = 6,
         depth_limit_indicator = "…",
         safe_output = true,

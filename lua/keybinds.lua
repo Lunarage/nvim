@@ -18,8 +18,8 @@ nnoremap("<C-l>", "<C-W>l")
 nnoremap("j", "gj")
 nnoremap("k", "gk")
 
-nnoremap("<Left>", ":bnext<CR>")
-nnoremap("<Right>", ":bprev<CR>")
+nnoremap("<Left>", ":bprev<CR>")
+nnoremap("<Right>", ":bnext<CR>")
 
 nnoremap("<C-Space>", "za")
 
