@@ -30,6 +30,7 @@ nnoremap("<c-l>", "<cmd>TmuxNavigateRight<cr>")
 nnoremap("<c-\\>", "<cmd>TmuxNavigatePrevious<cr>")
 
 nnoremap("<leader>f", ":Format<CR>")
+nnoremap("<leader>bd", ":bp|bd #<CR>")
 
 nnoremap("<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>")
 nnoremap("L", "<cmd>lua vim.lsp.buf.code_action()<cr>")

@@ -21,12 +21,12 @@ return {
   {
     "airblade/vim-gitgutter",
     init = function()
-      vim.cmd([[let g:gitgutter_sign_added = '▕']])
-      vim.cmd([[let g:gitgutter_sign_modified = '▕']])
-      vim.cmd([[let g:gitgutter_sign_removed = '▕']])
-      vim.cmd([[let g:gitgutter_sign_removed_first_line = '▕']])
-      vim.cmd([[let g:gitgutter_sign_removed_above_and_below = '▕']])
-      vim.cmd([[let g:gitgutter_sign_modified_removed = '▕']])
+      vim.cmd([[let g:gitgutter_sign_added = '┋']])
+      vim.cmd([[let g:gitgutter_sign_modified = '┋']])
+      vim.cmd([[let g:gitgutter_sign_removed = '┋']])
+      vim.cmd([[let g:gitgutter_sign_removed_first_line = '┋']])
+      vim.cmd([[let g:gitgutter_sign_removed_above_and_below = '┋']])
+      vim.cmd([[let g:gitgutter_sign_modified_removed = '┋']])
     end,
   },
   { "windwp/nvim-autopairs", event = "insertEnter", config = true },
@@ -58,6 +58,10 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim", "SmiteshP/nvim-navic" },
     config = function()
       local navic = require("nvim-navic")
+      local icon_filename = require("lualine.components.filename"):extend()
+      icon_filename.apply_icon = require("lualine.components.filetype").apply_icon
+      icon_filename.icon_hl_cache = {}
+
       require("lualine").setup({
         options = {
           theme = "catppuccin",
@@ -70,15 +74,15 @@ return {
         },
         sections = {
           lualine_a = { "mode" },
-          lualine_b = { "diff", "diagnostics" },
-          lualine_c = { "filename" },
+          lualine_b = { "branch" },
+          lualine_c = { "diagnostics" },
           lualine_x = { "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" },
         },
         winbar = {
           lualine_c = {
-            "filename",
+            { icon_filename, colored = true },
             {
               function()
                 return navic.get_location()

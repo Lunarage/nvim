@@ -52,4 +52,24 @@ return {
       })
     end,
   },
+  {
+    "quolpr/quicktest.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "m00qek/baleia.nvim",
+    },
+    config = function()
+      local qt = require("quicktest")
+      qt.setup({
+        adapters = {
+          require("quicktest.adapters.vitest"),
+        },
+      })
+
+      vim.keymap.set("n", "<leader>tt", qt.toggle_win, { desc = "[T]oggle [T]est window" })
+      vim.keymap.set("n", "<leader>tl", qt.run_line, { desc = "[T]est [L]ine" })
+      vim.keymap.set("n", "<F5>", qt.run_file, { desc = "Test file" })
+    end,
+  },
 }
