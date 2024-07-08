@@ -98,14 +98,15 @@ return {
   },
   {
     "akinsho/bufferline.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim" },
     config = function()
       local bufferline = require("bufferline")
+      local colors = require("catppuccin.palettes").get_palette("macchiato")
       bufferline.setup({
         options = {
           mode = "buffers", -- set to "tabs" to only show tabpages instead
           style_preset = bufferline.style_preset.no_italic,
-          themable = true,
+          themable = false,
           numbers = "none",
           indicator = {
             style = "underline",
@@ -127,6 +128,60 @@ return {
               or " "
             return " " .. icon
           end,
+        },
+        highlights = {
+          fill = { fg = colors.text, bg = colors.mantle },
+          background = { bg = colors.base },
+          tab = { bg = colors.base },
+          tab_separator = {
+            fg = { colors.mantle },
+            bg = { colors.yellow },
+          },
+          tab_separator_selected = {
+            fg = { colors.mantle },
+            bg = { colors.red },
+          },
+          tab_close = { bg = colors.base },
+          buffer_visible = { bg = colors.base },
+          buffer_selected = { bg = colors.surface0, bold = true, italic = false },
+          close_button = { bg = colors.base },
+          close_button_visible = { bg = colors.base },
+          close_button_selected = { bg = colors.surface0 },
+          numbers = { bg = colors.base },
+          numbers_visible = { bg = colors.base },
+          numbers_selected = { bg = colors.surface0 },
+          diagnostic = { bg = colors.base },
+          diagnostic_visible = { bg = colors.base },
+          diagnostic_selected = { bg = colors.surface0 },
+          info = { bg = colors.base },
+          info_visible = { bg = colors.base },
+          info_selected = { bg = colors.surface0 },
+          indicator_visible = { bg = colors.base },
+          indicator_selected = { bg = colors.surface0 },
+          separator = {
+            fg = { colors.mantle },
+            bg = { colors.yellow },
+          },
+          separator_selected = {
+            fg = { colors.mantle },
+            bg = { colors.red },
+          },
+          separator_visible = {
+            fg = { colors.mantle },
+            bg = { colors.green },
+          },
+          pick = {
+            fg = { colors.mantle },
+            bg = { colors.yellow },
+          },
+          pick_selected = {
+            fg = { colors.mantle },
+            bg = { colors.red },
+          },
+          pick_visible = {
+            fg = { colors.mantle },
+            bg = { colors.green },
+          },
         },
       })
     end,

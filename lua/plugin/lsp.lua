@@ -1,5 +1,40 @@
 return {
   {
+    "neovim/nvim-lspconfig",
+    dependencies = { "hrsh7th/cmp-nvim-lsp", "SmiteshP/nvim-navic" },
+    config = function()
+      local navic = require("nvim-navic")
+      local on_attach = function(client, bufnr)
+        navic.attach(client, bufnr)
+      end
+      local lspconfig = require("lspconfig")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      local lsp_list = { "lua_ls", "eslint", "tailwindcss", "gopls", "jsonls" }
+      local navic_list = { "lua_ls", "gopls", "jsonls" }
+      for _, lsp in pairs(lsp_list) do
+        lspconfig[lsp].setup({
+          capabilities = capabilities,
+          on_attach = function()
+            for _, navic_support in pairs(navic_list) do
+              if navic_support == lsp then
+                return on_attach
+              end
+            end
+            return nil
+          end,
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim" },
+              },
+            },
+          },
+        })
+      end
+    end,
+  },
+  {
     "SmiteshP/nvim-navic",
     config = function()
       local navic = require("nvim-navic")
@@ -47,41 +82,6 @@ return {
           return text
         end,
       })
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "SmiteshP/nvim-navic" },
-    config = function()
-      local navic = require("nvim-navic")
-      local on_attach = function(client, bufnr)
-        navic.attach(client, bufnr)
-      end
-      local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      local lsp_list = { "lua_ls", "eslint", "tailwindcss" }
-      local navic_list = { "lua_ls" }
-      for _, lsp in pairs(lsp_list) do
-        lspconfig[lsp].setup({
-          capabilities = capabilities,
-          on_attach = function()
-            for _, navic_support in pairs(navic_list) do
-              if navic_support == lsp then
-                return on_attach
-              end
-            end
-            return nil
-          end,
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { "vim" },
-              },
-            },
-          },
-        })
-      end
     end,
   },
   {

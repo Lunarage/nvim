@@ -44,7 +44,7 @@ vim.opt.listchars:append({
     leadmultispace = space,
     trail = space,
     nbsp = "●︎",
-    tab = "󰄾_",
+    tab = "-->",
     extends = "›",
     precedes = "‹",
 })
