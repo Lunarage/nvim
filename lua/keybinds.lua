@@ -29,21 +29,23 @@ nnoremap("<c-k>", "<cmd>TmuxNavigateUp<cr>")
 nnoremap("<c-l>", "<cmd>TmuxNavigateRight<cr>")
 nnoremap("<c-\\>", "<cmd>TmuxNavigatePrevious<cr>")
 
-nnoremap("<leader>f", ":Format<CR>")
+nnoremap("<leader>f", "<cmd>lua vim.lsp.buf.format()<cr>")
 nnoremap("<leader>bd", ":bp|bd #<CR>")
 
 nnoremap("<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>")
-nnoremap("L", "<cmd>lua vim.lsp.buf.code_action()<cr>")
+-- nnoremap("L", "<cmd>lua vim.lsp.buf.code_action()<cr>")
+
+vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
 
 vim.api.nvim_set_keymap(
-    "n",
-    "gD",
-    "<cmd>lua vim.lsp.buf.declaration()<CR>",
-    { noremap = true, silent = true }
+  "n",
+  "gD",
+  "<cmd>lua vim.lsp.buf.declaration()<CR>",
+  { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
-    "n",
-    "gd",
-    "<cmd>lua vim.lsp.buf.definition()<CR>",
-    { noremap = true, silent = true }
+  "n",
+  "gd",
+  "<cmd>lua vim.lsp.buf.definition()<CR>",
+  { noremap = true, silent = true }
 )

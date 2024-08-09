@@ -6,7 +6,7 @@ return {
       { "nvim-lua/plenary.nvim" },
       { "antoinemadec/FixCursorHold.nvim" },
       { "nvim-treesitter/nvim-treesitter" },
-      { "thenbe/neotest-playwright", depencencies = { "nvim-telescope/telescope.nvim" } },
+      { "thenbe/neotest-playwright",      depencencies = { "nvim-telescope/telescope.nvim" } },
       { "nvim-neotest/neotest-jest" },
       { "marilari88/neotest-vitest" },
       -- {
@@ -64,6 +64,11 @@ return {
       qt.setup({
         adapters = {
           require("quicktest.adapters.vitest"),
+          require("quicktest.adapters.golang")({
+            additional_args = function(bufnr)
+              return { '-race', '-count=1' }
+            end
+          }),
         },
       })
 

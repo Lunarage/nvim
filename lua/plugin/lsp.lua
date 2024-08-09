@@ -1,33 +1,68 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "SmiteshP/nvim-navic" },
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "SmiteshP/nvim-navic",
+      "williamboman/mason-lspconfig.nvim",
+      "lukas-reineke/lsp-format.nvim",
+    },
     config = function()
       local navic = require("nvim-navic")
-      local on_attach = function(client, bufnr)
-        navic.attach(client, bufnr)
-      end
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      local lsp_list = { "lua_ls", "eslint", "tailwindcss", "gopls", "jsonls" }
-      local navic_list = { "lua_ls", "gopls", "jsonls" }
+      local lsp_list = {
+        "bashls",
+        "cssls",
+        "dockerls",
+        "eslint",
+        "gopls",
+        "golangci_lint_ls",
+        "html",
+        "jedi_language_server",
+        "jsonls",
+        "lua_ls",
+        "nginx_language_server",
+        "tailwindcss",
+        "taplo",
+        "vimls",
+      }
+      local navic_list = {
+        "bashls",
+        "lua_ls",
+        "gopls",
+        "jsonls",
+        "cssls",
+        "dockerls",
+        "gopls",
+        "html",
+        "jedi_language_server",
+        "jsonls",
+        "lua_ls",
+        "nginx_language_server",
+        "taplo",
+        "vimls",
+      }
       for _, lsp in pairs(lsp_list) do
         lspconfig[lsp].setup({
           capabilities = capabilities,
-          on_attach = function()
+          on_attach = function(client, bufnr)
             for _, navic_support in pairs(navic_list) do
               if navic_support == lsp then
-                return on_attach
+                navic.attach(client, bufnr)
               end
             end
-            return nil
+            -- lspformat.on_attach(client, bufnr)
           end,
           settings = {
             Lua = {
               diagnostics = {
                 globals = { "vim" },
               },
+            },
+            gopls = {
+              gofumpt = true,
             },
           },
         })
