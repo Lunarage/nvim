@@ -1,20 +1,8 @@
 local hi_overrides = function(colors)
-  -- local tint_transforms = require("tint.transforms")
-  -- local tint_colors = require("tint.colors")
-  -- local dim_color = function(hex_color, tint, saturate)
-  --   local transform_tint = tint_transforms.tint(tint)
-  --   local transform_saturate = tint_transforms.saturate(saturate)
-  --   return tint_colors.rgb_to_hex(
-  --     transform_saturate(transform_tint(tint_colors.hex_to_rgb(hex_color)))
-  --   )
-  -- end
-  -- local dimmed_diff_red = dim_color(colors.red, -90, 0.4);
-  -- local dimmed_diff_green = dim_color(colors.green, -95, 0.5);
-  -- local dimmed_diff_yellow = dim_color(colors.yellow, -95, 0.5);
-  -- local dimmed_diff_text = dim_color(colors.yellow, -80, 0.45);
   return {
-    WhiteSpace = { fg = colors.surface0, bold = false },
+    -- WhiteSpace = { fg = colors.surface0, bold = false },
     NormalFloat = { bg = colors.base },
+    ["@comment.todo"] = { bg = colors.mauve },
     FloatBorder = { bg = colors.base, fg = colors.text },
     GitGutterAdd = { fg = colors.green, bold = true },
     GitGutterChange = { fg = colors.yellow, bold = true },
@@ -23,10 +11,17 @@ local hi_overrides = function(colors)
       fg = colors.red,
       bold = true,
     },
-    -- DiffAdd = { bg = dimmed_diff_green},
-    -- DiffDelete = { bg = dimmed_diff_red },
-    -- DiffChange = { bg = dimmed_diff_yellow},
-    -- DiffText = { bg = dimmed_diff_text },
+    dcDiffAdd = { bg = colors.base, fg = colors.green },
+    DiffAdd = { bg = colors.base, fg = colors.green },
+    DiffAdded = { bg = colors.base, fg = colors.green },
+    dcDiffDelete = { bg = colors.base, fg = colors.red },
+    DiffDelete = { bg = colors.base, fg = colors.red },
+    dcDiffDelEdge = { bg = colors.base, fg = colors.red },
+    dcDiffChange = { bg = colors.base, fg = colors.peach },
+    DiffChange = { bg = colors.base, fg = colors.peach },
+    dcDiffText = { bg = colors.base, fg = colors.overlay2 },
+    DiffText = { bg = colors.base, fg = colors.overlay2 },
+    dcDiffLine = { bg = colors.base, fg = colors.overlay2 },
     Folded = { fg = colors.mauve },
     IlluminatedWordText = { underline = true },
     IlluminatedWordWrite = { underline = true },
@@ -72,6 +67,9 @@ end
 return {
   {
     "catppuccin/nvim",
+    dependencies = {
+      "rickhowe/diffchar.vim"
+    },
     config = function()
       require("catppuccin").setup({
         flavour = "macchiato",

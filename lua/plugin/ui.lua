@@ -1,7 +1,11 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-fzf-writer.nvim",
+      "nvim-telescope/telescope-live-grep-args.nvim",
+    },
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<cr>" },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
@@ -11,6 +15,33 @@ return {
       { "gD",         "<cmd>Telescope lsp_definitions<cr>" },
       { "z=",         "<cmd>Telescope spell_suggest<cr>" },
     },
+    config = function()
+      local telescope = require('telescope')
+      local lga_actions = require("telescope-live-grep-args.actions")
+
+      telescope.setup({
+        extensions = {
+          live_grep_args = {
+            auto_quoting = true, -- enable/disable auto-quoting
+            -- define mappings, e.g.
+            mappings = {   -- extend mappings
+              i = {
+                ["<C-k>"] = lga_actions.quote_prompt(),
+                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+                -- freeze the current list and start a fuzzy search in the frozen list
+                -- ["<C-space>"] = actions.to_fuzzy_refine,
+              },
+            },
+            -- ... also accepts theme settings, for example:
+            -- theme = "dropdown", -- use dropdown theme
+            -- theme = { }, -- use own theme spec
+            -- layout_config = { mirror=true }, -- mirror preview pane
+          }
+        }
+      })
+
+      telescope.load_extension("live_grep_args")
+    end
   },
   {
     "aznhe21/actions-preview.nvim",
@@ -111,6 +142,7 @@ return {
             "NvimTree",
             "trouble",
             "neotest-summary",
+            "",
           },
         },
         sections = {
@@ -247,23 +279,20 @@ return {
   {
     "norcalli/nvim-colorizer.lua",
     config = function()
-      require("colorizer").setup(
-        {
-          "*",
-          css = { names = true },
-          html = { names = true },
-        }
-        , {
-          RGB = true,
-          RRGGBB = true,
-          names = false,
-          RRGGBBAA = true,
-          rgb_fn = true,
-          hsl_fn = true,
-          css = true,
-          css_fn = true,
-        }
-      )
+      require("colorizer").setup({
+        "*",
+        css = { names = true },
+        html = { names = true },
+      }, {
+        RGB = true,
+        RRGGBB = true,
+        names = false,
+        RRGGBBAA = true,
+        rgb_fn = true,
+        hsl_fn = true,
+        css = true,
+        css_fn = true,
+      })
     end,
   },
 }

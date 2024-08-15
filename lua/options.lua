@@ -69,3 +69,12 @@ vim.diagnostic.config({
 })
 
 vim.diagnostic.config({ virtual_text = false })
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+  end,
+  desc = "Disable line numbers for terminal"
+  }
+)
