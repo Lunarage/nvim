@@ -11,12 +11,12 @@ return {
       { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
       { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
       { "<leader>fr", "<cmd>Telescope lsp_references<cr>" },
-      { "gd",         "<cmd>Telescope lsp_implementations<cr>" },
-      { "gD",         "<cmd>Telescope lsp_definitions<cr>" },
-      { "z=",         "<cmd>Telescope spell_suggest<cr>" },
+      { "gd", "<cmd>Telescope lsp_implementations<cr>" },
+      { "gD", "<cmd>Telescope lsp_definitions<cr>" },
+      { "z=", "<cmd>Telescope spell_suggest<cr>" },
     },
     config = function()
-      local telescope = require('telescope')
+      local telescope = require("telescope")
       local lga_actions = require("telescope-live-grep-args.actions")
 
       telescope.setup({
@@ -24,7 +24,7 @@ return {
           live_grep_args = {
             auto_quoting = true, -- enable/disable auto-quoting
             -- define mappings, e.g.
-            mappings = {   -- extend mappings
+            mappings = { -- extend mappings
               i = {
                 ["<C-k>"] = lga_actions.quote_prompt(),
                 ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
@@ -36,12 +36,12 @@ return {
             -- theme = "dropdown", -- use dropdown theme
             -- theme = { }, -- use own theme spec
             -- layout_config = { mirror=true }, -- mirror preview pane
-          }
-        }
+          },
+        },
       })
 
       telescope.load_extension("live_grep_args")
-    end
+    end,
   },
   {
     "aznhe21/actions-preview.nvim",
@@ -142,6 +142,7 @@ return {
             "NvimTree",
             "trouble",
             "neotest-summary",
+            "neotest-output-panel",
             "",
           },
         },
@@ -152,19 +153,6 @@ return {
           lualine_x = { "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" },
-        },
-        winbar = {
-          lualine_c = {
-            { icon_filename, colored = true },
-            {
-              function()
-                return navic.get_location()
-              end,
-              cond = function()
-                return navic.is_available()
-              end,
-            },
-          },
         },
       })
     end,
@@ -216,10 +204,10 @@ return {
           separator_style = "slant",
           diagnostics_indicator = function(_, level)
             local icon = level:match("error") and " "
-                or level:match("warning") and " "
-                or level:match("info") and " "
-                or level:match("hint") and " "
-                or " "
+              or level:match("warning") and " "
+              or level:match("info") and " "
+              or level:match("hint") and " "
+              or " "
             return " " .. icon
           end,
         },
@@ -292,6 +280,80 @@ return {
         hsl_fn = true,
         css = true,
         css_fn = true,
+      })
+    end,
+  },
+  {
+    "b0o/incline.nvim",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons",
+      "lewis6991/gitsigns.nvim",
+    },
+    config = function()
+      local helpers = require("incline.helpers")
+      local navic = require("nvim-navic")
+      local devicons = require("nvim-web-devicons")
+      local colors = require("catppuccin.palettes").get_palette("macchiato")
+      local U = require("../utils")
+      local h, _, _ = U.rgbToHsl(U.hexToRgb(colors.blue))
+      local bg = U.rgbToHex(U.hslToRgb(h, 0.25, 0.25))
+
+      require("incline").setup({
+        window = {
+          padding = 0,
+          margin = { horizontal = 0, vertical = 0 },
+          placement = { horizontal = "left" },
+          width = "fill",
+        },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          if filename == "" then
+            filename = "[No Name]"
+          end
+          local ft_icon, ft_color = devicons.get_icon_color(filename)
+
+          local function get_git_diff()
+            local icons = { removed = " ", changed = " ", added = " " }
+            local signs = vim.b[props.buf].gitsigns_status_dict
+            local labels = {}
+            if signs == nil then
+              return labels
+            end
+            for name, icon in pairs(icons) do
+              if tonumber(signs[name]) and signs[name] > 0 then
+                table.insert(labels, { icon .. signs[name] .. " ", group = "Diff" .. name })
+              end
+            end
+            if #labels > 0 then
+              table.insert(labels, { "┊ " })
+            end
+            return labels
+          end
+
+          local modified = vim.bo[props.buf].modified
+          local res = {
+            { get_git_diff() },
+            ft_icon
+                and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) }
+              or "",
+            " ",
+            { filename, gui = modified and "bold,italic" or "bold" },
+            guibg = bg,
+          }
+          if props.focused and navic.is_available(props.buf) then
+            for _, item in ipairs(navic.get_data(props.buf) or {}) do
+              vim.api.nvim_win_get_width(0)
+              table.insert(res, {
+                { " > ", group = "NavicSeparator" },
+                { item.icon, group = "NavicIcons" .. item.type },
+                { item.name, group = "NavicText" },
+              })
+            end
+          end
+          table.insert(res, " ")
+          return res
+        end,
       })
     end,
   },

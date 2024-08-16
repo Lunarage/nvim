@@ -1,3 +1,5 @@
+-- local Utils = require("../../lua/utils")
+
 local tab_width = 2
 
 vim.opt_local.tabstop = tab_width

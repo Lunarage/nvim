@@ -19,6 +19,7 @@ local hi_overrides = function(colors)
     dcDiffDelEdge = { bg = colors.base, fg = colors.red },
     dcDiffChange = { bg = colors.base, fg = colors.peach },
     DiffChange = { bg = colors.base, fg = colors.peach },
+    DiffChanged = { bg = colors.base, fg = colors.peach },
     dcDiffText = { bg = colors.base, fg = colors.overlay2 },
     DiffText = { bg = colors.base, fg = colors.overlay2 },
     dcDiffLine = { bg = colors.base, fg = colors.overlay2 },
@@ -67,9 +68,6 @@ end
 return {
   {
     "catppuccin/nvim",
-    dependencies = {
-      "rickhowe/diffchar.vim"
-    },
     config = function()
       require("catppuccin").setup({
         flavour = "macchiato",
@@ -77,9 +75,7 @@ return {
         no_italic = false,
         no_bold = false,
         no_underline = false,
-        highlight_overrides = {
-          all = hi_overrides,
-        },
+        custom_highlights = hi_overrides,
         default_integrations = true,
         integrations = {
           cmp = true,

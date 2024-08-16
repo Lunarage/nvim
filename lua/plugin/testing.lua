@@ -2,79 +2,63 @@ return {
   {
     "nvim-neotest/neotest",
     dependencies = {
-      { "nvim-neotest/nvim-nio" },
-      { "nvim-lua/plenary.nvim" },
-      { "antoinemadec/FixCursorHold.nvim" },
-      { "nvim-treesitter/nvim-treesitter" },
-      { "thenbe/neotest-playwright",      depencencies = { "nvim-telescope/telescope.nvim" } },
-      { "nvim-neotest/neotest-jest" },
-      { "marilari88/neotest-vitest" },
-      -- {
-      --   "mfussenegger/nvim-dap",
-      --   config = function()
-      --     local dap = require("dap")
-      --     dap.adapters["pwa-node"] = {
-      --       type = "server",
-      --       host = "localhost",
-      --       port = "${port}",
-      --       executable = {
-      --         command = "node",
-      --         args = { "/usr/bin/dapDebugServer.js", "${port}" },
-      --       },
-      --     }
-      --     dap.configurations.typescript = {
-      --       {
-      --         type = "pwa-node",
-      --         request = "launch",
-      --         name = "Launch file",
-      --         runtimeExecutable = "deno",
-      --         runtimeArgs = {
-      --           "run",
-      --           "--inspect-wait",
-      --           "--allow-all",
-      --         },
-      --         program = "${file}",
-      --         cwd = "${workspaceFolder}",
-      --         attachSimplePort = 9229,
-      --       },
-      --     }
-      --   end,
-      -- },
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/neotest-jest",
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-go",
+      { "thenbe/neotest-playwright", depencencies = { "nvim-telescope/telescope.nvim" } },
     },
-    cmd = { "Neotest" },
     config = function()
-      require("neotest").setup({
+      local neotest = require("neotest")
+
+      -- get neotest namespace (api call creates or returns namespace)
+      local neotest_ns = vim.api.nvim_create_namespace("neotest")
+      vim.diagnostic.config({
+        virtual_text = {
+          format = function(diagnostic)
+            local message =
+              diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+            return message
+          end,
+        },
+      }, neotest_ns)
+      neotest.setup({
         adapters = {
           require("neotest-jest"),
           require("neotest-vitest"),
           require("neotest-playwright").adapter(),
-        },
-      })
-    end,
-  },
-  {
-    "quolpr/quicktest.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "m00qek/baleia.nvim",
-    },
-    config = function()
-      local qt = require("quicktest")
-      qt.setup({
-        adapters = {
-          require("quicktest.adapters.vitest"),
-          require("quicktest.adapters.golang")({
-            additional_args = function(bufnr)
-              return { '-race', '-count=1' }
-            end
-          }),
+          require("neotest-go"),
         },
       })
 
-      vim.keymap.set("n", "<leader>tt", qt.toggle_win, { desc = "[T]oggle [T]est window" })
-      vim.keymap.set("n", "<leader>tl", qt.run_line, { desc = "[T]est [L]ine" })
-      vim.keymap.set("n", "<F5>", qt.run_file, { desc = "Test file" })
+      vim.keymap.set("n", "<leader>tt", neotest.run.run, { desc = "Run nearest test" })
+      vim.keymap.set("n", "<F5>", function()
+        neotest.run.run({ strategy = "dap" })
+      end, { desc = "Test file" })
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      local dap = require("dap")
+      dap.adapters.go = {
+        type = "executable",
+        command = "node",
+        args = { os.getenv("HOME") .. "/dev/golang/vscode-go/extension/dist/debugAdapter.js" },
+      }
+      dap.configurations.go = {
+        {
+          type = "go",
+          name = "Debug",
+          request = "launch",
+          showLog = false,
+          program = "${file}",
+          dlvToolPath = vim.fn.exepath("dlv"), -- Adjust to where delve is installed
+        },
+      }
     end,
   },
 }
