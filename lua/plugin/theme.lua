@@ -4,13 +4,6 @@ local hi_overrides = function(colors)
     NormalFloat = { bg = colors.base },
     ["@comment.todo"] = { bg = colors.mauve },
     FloatBorder = { bg = colors.base, fg = colors.text },
-    GitGutterAdd = { fg = colors.green, bold = true },
-    GitGutterChange = { fg = colors.yellow, bold = true },
-    GitGutterDelete = { fg = colors.red, bold = true },
-    GitGutterChangeDeleteLine = {
-      fg = colors.red,
-      bold = true,
-    },
     dcDiffAdd = { bg = colors.base, fg = colors.green },
     DiffAdd = { bg = colors.base, fg = colors.green },
     DiffAdded = { bg = colors.base, fg = colors.green },
@@ -69,16 +62,19 @@ return {
   {
     "catppuccin/nvim",
     config = function()
+      local colors = require("catppuccin.palettes").get_palette("macchiato")
       require("catppuccin").setup({
         flavour = "macchiato",
         transparent_background = true,
         no_italic = false,
         no_bold = false,
         no_underline = false,
+        color_overrides = hi_overrides(colors),
         custom_highlights = hi_overrides,
         default_integrations = true,
         integrations = {
           cmp = true,
+          gitsigns = true,
           nvimtree = true,
           treesitter = true,
           rainbow_delimiters = true,

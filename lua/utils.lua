@@ -72,9 +72,9 @@ function M.hslToRgb(h, s, l)
 end
 
 function M.rgbToHsl(r, g, b)
-  local r, b, g = r / 255, g / 255, b / 255
+  r, b, g = r / 255, g / 255, b / 255
   local max, min = math.max(r, g, b), math.min(r, g, b)
-  local b = max + min
+  b = max + min
   local h = b / 2
   if max == min then return 0, 0, h end
   local s, l = h, h

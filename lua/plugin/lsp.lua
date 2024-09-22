@@ -15,6 +15,7 @@ return {
       local lsp_list = {
         "bashls",
         "cssls",
+        "clangd",
         "dockerls",
         "eslint",
         "gopls",
@@ -30,6 +31,7 @@ return {
       }
       local navic_list = {
         "bashls",
+        "clangd",
         "lua_ls",
         "gopls",
         "jsonls",
@@ -40,7 +42,6 @@ return {
         "jedi_language_server",
         "jsonls",
         "lua_ls",
-        "nginx_language_server",
         "taplo",
         "vimls",
       }

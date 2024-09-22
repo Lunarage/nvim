@@ -57,7 +57,7 @@ return {
 
         ft_ignore = { "neorg" },
       })
-      vim.opt.foldcolumn="1"
+      vim.opt.foldcolumn="0"
     end,
   },
 }
