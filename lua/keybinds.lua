@@ -1,4 +1,4 @@
-local utils = require("./utils")
+local utils = require("utils")
 
 local nnoremap = utils.nnoremap
 -- local vnoremap = Utils.vnoremap
@@ -32,7 +32,7 @@ nnoremap("<c-\\>", "<cmd>TmuxNavigatePrevious<cr>")
 nnoremap("<leader>f", "<cmd>lua vim.lsp.buf.format()<cr>")
 nnoremap("<leader>bd", ":bp|bd #<CR>")
 
-nnoremap("<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>")
+-- nnoremap("<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>")
 -- nnoremap("L", "<cmd>lua vim.lsp.buf.code_action()<cr>")
 
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true })

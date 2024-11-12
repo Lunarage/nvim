@@ -4,11 +4,10 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzf-writer.nvim",
-      "nvim-telescope/telescope-live-grep-args.nvim",
     },
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<cr>" },
-      { "<leader>fg", "<cmd>Telescope live_grep<cr>" },
+      { "<leader>fg", "<cmd>Telescope live_grep glob_pattern=!node_modules/**/*<cr>" },
       { "<leader>fh", "<cmd>Telescope help_tags<cr>" },
       { "<leader>fr", "<cmd>Telescope lsp_references<cr>" },
       { "gd", "<cmd>Telescope lsp_implementations<cr>" },
@@ -17,39 +16,16 @@ return {
     },
     config = function()
       local telescope = require("telescope")
-      local lga_actions = require("telescope-live-grep-args.actions")
-
-      telescope.setup({
-        extensions = {
-          live_grep_args = {
-            auto_quoting = true, -- enable/disable auto-quoting
-            -- define mappings, e.g.
-            mappings = { -- extend mappings
-              i = {
-                ["<C-k>"] = lga_actions.quote_prompt(),
-                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-                -- freeze the current list and start a fuzzy search in the frozen list
-                -- ["<C-space>"] = actions.to_fuzzy_refine,
-              },
-            },
-            -- ... also accepts theme settings, for example:
-            -- theme = "dropdown", -- use dropdown theme
-            -- theme = { }, -- use own theme spec
-            -- layout_config = { mirror=true }, -- mirror preview pane
-          },
-        },
-      })
-
-      telescope.load_extension("live_grep_args")
+      telescope.setup({})
     end,
   },
-  {
-    "aznhe21/actions-preview.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      vim.keymap.set({ "n" }, "L", require("actions-preview").code_actions)
-    end,
-  },
+  -- {
+  --   "aznhe21/actions-preview.nvim",
+  --   dependencies = { "nvim-telescope/telescope.nvim" },
+  --   config = function()
+  --     vim.keymap.set({ "n" }, "L", require("actions-preview").code_actions)
+  --   end,
+  -- },
   {
     "lewis6991/gitsigns.nvim",
     config = function()
@@ -118,12 +94,24 @@ return {
             gitsigns.diffthis("~")
           end)
           map("n", "<leader>td", gitsigns.toggle_deleted)
+          map("n", "<leader>tw", gitsigns.toggle_word_diff)
+          map("n", "<Down>", gitsigns.next_hunk)
+          map("n", "<Up>", gitsigns.prev_hunk)
 
           -- Text object
           map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
         end,
       })
     end,
+  },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      -- "sindrets/diffview.nvim",        -- optional - Diff integration
+      "nvim-telescope/telescope.nvim",
+    },
+    config = true,
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -143,6 +131,7 @@ return {
             "trouble",
             "neotest-summary",
             "neotest-output-panel",
+            "sagaoutline",
             "",
           },
         },
@@ -295,5 +284,10 @@ return {
         css_fn = true,
       })
     end,
+  },
+  {
+    "nvim-zh/colorful-winsep.nvim",
+    config = true,
+    event = { "WinLeave" },
   },
 }

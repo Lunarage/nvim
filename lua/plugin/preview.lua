@@ -42,11 +42,11 @@ return {
   {
     "jrop/mongo.nvim",
   },
-  -- {
-  --   "weirongxu/plantuml-previewer.vim",
-  --   dependencies = {
-  --     "tyru/open-browser.vim"
-  --   }
-  -- },
-  { "javiorfo/nvim-soil" },
+  {
+    "weirongxu/plantuml-previewer.vim",
+    dependencies = {
+      "tyru/open-browser.vim"
+    }
+  },
+  -- { "javiorfo/nvim-soil" },
 }

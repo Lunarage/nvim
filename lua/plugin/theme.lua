@@ -1,8 +1,18 @@
 local hi_overrides = function(colors)
   return {
-    -- WhiteSpace = { fg = colors.surface0, bold = false },
     NormalFloat = { bg = colors.base },
     ["@comment.todo"] = { bg = colors.mauve },
+    ["@function.builtin"] = { fg = colors.blue, italic = true },
+    ["@lsp.type.interface"] = { fg = colors.flamingo, italic = true },
+    ["@lsp.type.type"] = { fg = colors.yellow, italic = true },
+    ["@module"] = { fg = colors.yellow, italic = true },
+    ["@parameter"] = { fg = colors.maroon, italic = true },
+    ["@variable.jsdoc"] = { fg = colors.maroon, italic = true },
+    ["@property"] = { fg = colors.lavender },
+    ["@tag.attribute.tsx"] = { fg = colors.yellow, style = {} },
+    ["@tag.builtin.tsx"] = { fg = colors.blue },
+    ["@type.builtin"] = { fg = colors.mauve },
+    Function = { fg = colors.blue, italic = true },
     FloatBorder = { bg = colors.base, fg = colors.text },
     dcDiffAdd = { bg = colors.base, fg = colors.green },
     DiffAdd = { bg = colors.base, fg = colors.green },
@@ -55,6 +65,13 @@ local hi_overrides = function(colors)
     NavicIconsTypeParameter = { fg = colors.mauve, bg = nil },
     NavicText = { fg = colors.text, bg = nil },
     NavicSearator = { fg = colors.text, bg = nil },
+    NvimTreeGitNewIcon = { fg = colors.yellow },
+    NvimTreeGitRenamedIcon = { fg = colors.yellow },
+    NvimTreeGitDeletedIcon = { fg = colors.red },
+    NvimTreeGitMergeIcon = { fg = colors.peach },
+    NvimTreeGitDirtyIcon = { fg = colors.peach },
+    NvimTreeGitStagedIcon = { fg = colors.green },
+    NvimTreeGitIgnoredIcon = { fg = colors.overlay1 },
   }
 end
 
@@ -113,9 +130,9 @@ return {
     "levouh/tint.nvim",
     config = function()
       require("tint").setup({
-        tint = -50,                                                                -- Darken colors, use a positive value to brighten
-        saturation = 0.4,                                                          -- Saturation to preserve
-        transforms = require("tint").transforms.SATURATE_TINT,                     -- Showing default behavior, but value here can be predefined set of transforms
+        tint = -50, -- Darken colors, use a positive value to brighten
+        saturation = 0.4, -- Saturation to preserve
+        transforms = require("tint").transforms.SATURATE_TINT, -- Showing default behavior, but value here can be predefined set of transforms
         -- tint_background_colors = true, -- Tint background portions of highlight groups
         highlight_ignore_patterns = { "WinSeparator", "Status.*", "BufferLine*" }, -- Highlight group patterns to ignore, see `string.find`
         window_ignore_function = function(winid)

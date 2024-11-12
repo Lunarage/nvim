@@ -10,20 +10,23 @@ return {
     config = function()
       local navic = require("nvim-navic")
       local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities =
+        require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       local lsp_list = {
         "bashls",
-        "cssls",
         "clangd",
+        "cmake",
+        "cssls",
         "dockerls",
         "eslint",
-        "gopls",
         "golangci_lint_ls",
+        "gopls",
         "html",
         "jedi_language_server",
         "jsonls",
         "lua_ls",
+        "markdown_oxide",
         "nginx_language_server",
         "tailwindcss",
         "taplo",
@@ -32,9 +35,6 @@ return {
       local navic_list = {
         "bashls",
         "clangd",
-        "lua_ls",
-        "gopls",
-        "jsonls",
         "cssls",
         "dockerls",
         "gopls",
@@ -42,31 +42,52 @@ return {
         "jedi_language_server",
         "jsonls",
         "lua_ls",
+        "markdown_oxide",
         "taplo",
         "vimls",
       }
       for _, lsp in pairs(lsp_list) do
-        lspconfig[lsp].setup({
-          capabilities = capabilities,
-          on_attach = function(client, bufnr)
-            for _, navic_support in pairs(navic_list) do
-              if navic_support == lsp then
-                navic.attach(client, bufnr)
-              end
-            end
-            -- lspformat.on_attach(client, bufnr)
-          end,
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { "vim" },
+        if lsp == "markdown_oxide" then
+          lspconfig[lsp].setup({
+            capabilities = {
+              "force",
+              capabilities,
+              {
+                workspace = {
+                  didChangeWatchedFiles = {
+                    dynamicRegistration = true,
+                  },
+                },
               },
             },
-            gopls = {
-              gofumpt = true,
+            on_attach = function(client, bufnr)
+              navic.attach(client, bufnr)
+            end,
+            settings = {},
+          })
+        else
+          lspconfig[lsp].setup({
+            capabilities = capabilities,
+            on_attach = function(client, bufnr)
+              for _, navic_support in pairs(navic_list) do
+                if navic_support == lsp then
+                  navic.attach(client, bufnr)
+                end
+              end
+              -- lspformat.on_attach(client, bufnr)
+            end,
+            settings = {
+              Lua = {
+                diagnostics = {
+                  globals = { "vim" },
+                },
+              },
+              gopls = {
+                gofumpt = true,
+              },
             },
-          },
-        })
+          })
+        end
       end
     end,
   },
@@ -189,5 +210,30 @@ return {
     config = function()
       require("tailwind-tools").setup({})
     end,
+  },
+  {
+    "nvimdev/lspsaga.nvim",
+    config = function()
+      require("lspsaga").setup({
+        symbol_in_winbar = {
+          enable = false,
+        },
+        lightbulb = {
+          enable = false,
+        },
+        rename = {
+          in_select = false,
+        }
+      })
+      vim.api.nvim_set_keymap("n", "L", "<cmd>Lspsaga code_action<cr>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "K", "<cmd>Lspsaga hover_doc<cr>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "Ø", "<cmd>Lspsaga diagnostic_jump_next<cr>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<leader>lf", "<cmd>Lspsaga finder<cr>", { noremap = true })
+      vim.api.nvim_set_keymap("n", "<F2>", "<cmd>Lspsaga rename<cr>", { noremap = true })
+    end,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter", -- optional
+      "nvim-tree/nvim-web-devicons", -- optional
+    },
   },
 }

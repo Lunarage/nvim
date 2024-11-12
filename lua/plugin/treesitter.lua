@@ -24,6 +24,7 @@ return {
           "html",
         },
         highlight = { enable = true },
+        -- indent = { enable = true },
       })
     end,
   },

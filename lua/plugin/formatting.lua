@@ -14,7 +14,6 @@ return {
             require("formatter.filetypes.yaml").yamlfmt,
           },
           go = {
-            -- require("formatter.filetypes.go").golines,
             function()
               return {
                 exe = "golines",
@@ -27,7 +26,6 @@ return {
             end
           },
           markdown = {
-            -- require("formatter.filetypes.markdown").prettier,
             function()
               return {
                 exe = "mdformat",

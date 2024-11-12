@@ -68,7 +68,7 @@ return {
           -- javascript = rainbow_delimiters.strategy["local"],
           -- typescriptreact = rainbow_delimiters.strategy["local"],
           -- typescript = rainbow_delimiters.strategy["local"],
-          vim = rainbow_delimiters.strategy["local"],
+          -- vim = rainbow_delimiters.strategy["local"],
           -- lua = rainbow_delimiters.strategy["local"],
         },
         query = {
@@ -80,8 +80,17 @@ return {
         },
         highlight = highlight,
       })
+
       require("ibl").setup({
-        scope = { highlight = highlight, enabled = true },
+        scope = {
+          highlight = highlight,
+          enabled = true,
+          show_start = true,
+          show_end = false,
+          include = {
+            node_type = { ["*"] = { "*" } },
+          },
+        },
       })
     end,
   },
@@ -89,7 +98,16 @@ return {
   {
     "derektata/lorem.nvim",
     config = function()
-      require("lorem").setup({})
+      require("lorem").opts({})
+    end,
+  },
+  {
+    "kkoomen/vim-doge",
+  },
+  {
+    "Kicamon/markdown-table-mode.nvim",
+    config = function()
+      require("markdown-table-mode").setup()
     end,
   },
 }

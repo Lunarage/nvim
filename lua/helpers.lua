@@ -52,7 +52,6 @@ end
 
 function M.find_hunk(hunks, linenr)
   for _, hunk in ipairs(hunks) do
-    print(hunk.to_start, linenr, hunk.to_end)
     if linenr >= hunk.to_start and linenr <= hunk.to_end then
       return hunk
     end

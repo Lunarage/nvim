@@ -17,7 +17,7 @@ return {
           "gopls",
           "html",
           "jsonls",
-          "tsserver",
+          "ts_ls",
           "lua_ls",
           "nginx_language_server",
           "jedi_language_server",
